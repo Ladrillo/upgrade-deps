@@ -21,8 +21,10 @@ const getTime = (date = new Date()) => {
 const log = operation => {
   const process = operation[0]
   const step = operation[1]
-  console.log(`✨ ${step}\n`, process.stdout)
-  process.stderr && console.log(`🍅 ${step}\n`, process.stderr)
+  console.log(`✨ ${step}\n`, String(process.stdout))
+  process.stderr
+    && String(process.stderr).trim().length()
+    && console.log(`🍅 ${step}\n`, String(process.stderr))
 }
 
 const spawnOptions = {
