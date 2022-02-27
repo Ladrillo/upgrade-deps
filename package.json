@@ -1,0 +1,29 @@
+{
+  "name": "@ladrillo/upgrade-deps",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon --inspect index.js $1",
+    "test": "npm run convert && jest",
+    "prepublishOnly": "npm i && npm test || exit 1"
+  },
+  "author": "Gabriel Cabrejas",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ladrillo/upgrade-deps.git"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "eslint": "^8.10.0",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15"
+  },
+  "bin": "./index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "npm-check-updates": "^12.4.0"
+  }
+}
