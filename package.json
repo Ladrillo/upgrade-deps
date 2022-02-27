@@ -4,7 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon --inspect index.js $1",
-    "test": "npm run convert && jest",
+    "test": "jest",
     "prepublishOnly": "npm i && npm test || exit 1"
   },
   "author": "Gabriel Cabrejas",
