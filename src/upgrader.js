@@ -50,6 +50,7 @@ module.exports = async function () {
     makeCommit,
     pushCommit,
   ].forEach(process => {
+    console.log(`🍅 It's doing ${process[1]}`)
     log(process[0], process[1])
   })
 }
