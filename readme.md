@@ -14,5 +14,5 @@ Little script to
 ## Using @ladrillo/upgrade-deps
 
 ```bash
-npx @ladrillo/upgrade-deps@lastest
+npx @ladrillo/upgrade-deps@latest
 ```
