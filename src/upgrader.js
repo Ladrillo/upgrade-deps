@@ -24,6 +24,7 @@ const log = operation => {
   console.log(`✨ ${step}\n`, String(process.stdout))
   process.stderr
     && typeof String(process.stderr) === 'string'
+    && String(process.stderr).trim().length
     && console.log(`🍅 ${step}\n`, String(process.stderr))
 }
 
