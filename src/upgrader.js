@@ -32,15 +32,40 @@ const log = (proc, name) => {
   })
 }
 
+const spawnOptions = {
+  cwd: process.cwd(),
+  env: process.env,
+  stdio: 'pipe',
+  encoding: 'utf-8'
+}
+
 module.exports = async function () {
   const [, , branch = 'main'] = process.argv
 
-  const delNodeModules = [spawnSync('rm', ['-rf', './node_modules']), 'Step 1/6 - Delete node_modules']
-  const delLockFile = [spawnSync('rm', ['./package-lock.json']), 'Step 2/6 - Delete lockfile']
-  const upgradeDeps = [spawnSync('ncu', ['-u']), 'Step 3/6 - Upgrade dependencies']
-  const installDeps = [spawnSync('npm', ['install']), 'Step 4/6 - Create new lockfile']
-  const makeCommit = [spawnSync('git', ['commit', '-m', `"upgrade deps & lockfile"`]), 'Step 5/6 - Make a commit']
-  const pushCommit = [spawnSync('git', ['push', 'origin', branch]), 'Step 6/6 - Push a commit'];
+  const delNodeModules = [
+    spawnSync('rm', ['-rf', './node_modules'], spawnOptions),
+    'Step 1/6 - Delete node_modules',
+  ]
+  const delLockFile = [
+    spawnSync('rm', ['./package-lock.json'], spawnOptions),
+    'Step 2/6 - Delete lockfile',
+  ]
+  const upgradeDeps = [
+    spawnSync('ncu', ['-u'], spawnOptions),
+    'Step 3/6 - Upgrade dependencies',
+  ]
+  const installDeps = [
+    spawnSync('npm', ['install'], spawnOptions),
+    'Step 4/6 - Create new lockfile',
+  ]
+  const makeCommit = [
+    spawnSync('git', ['commit', '-m', `"upgrade deps & lockfile"`], spawnOptions),
+    'Step 5/6 - Make a commit',
+  ]
+  const pushCommit = [
+    spawnSync('git', ['push', 'origin', branch], spawnOptions),
+    'Step 6/6 - Push a commit',
+  ];
 
   [
     delNodeModules,
@@ -49,8 +74,11 @@ module.exports = async function () {
     installDeps,
     makeCommit,
     pushCommit,
-  ].forEach(process => {
-    console.log(`🍅 It's doing ${process[1]}`)
-    log(process[0], process[1])
+  ].forEach(operation => {
+    const result = operation[0]
+    const step = operation[1]
+
+    console.log(`✨ ${step} stdout`, result.stdout)
+    console.log(`🍅 ${step} stderr`, result.stderr)
   })
 }
