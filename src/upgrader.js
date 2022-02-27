@@ -18,18 +18,11 @@ const getTime = (date = new Date()) => {
   })
 }
 
-const log = (proc, name) => {
-  proc.stdout.on('data', data => {
-    console.log(`🍅 ${data}`)
-  })
-  proc.stderr.on('data', data => {
-    console.error(`🍅 ${data}`)
-  })
-  proc.on('exit', code => {
-    const emoji = code > 0 ? '❓' : '✨'
-    const outcome = code > 0 ? 'failed' : 'succeeded'
-    console.log(`${emoji} ${name} process ${outcome} at ${getTime()}\n`)
-  })
+const log = operation => {
+  const process = operation[0]
+  const step = operation[1]
+  console.log(`✨ ${step}`, process.stdout)
+  process.stderr && console.log(`🍅 ${step}`, process.stderr)
 }
 
 const spawnOptions = {
@@ -46,44 +39,38 @@ module.exports = async function () {
     spawnSync('rm', ['-rf', './node_modules'], spawnOptions),
     'Step 1/6 - Delete node_modules',
   ]
+  log(delNodeModules)
   const delLockFile = [
     spawnSync('rm', ['./package-lock.json'], spawnOptions),
     'Step 2/6 - Delete lockfile',
   ]
+  log(delLockFile)
   const upgradeDeps = [
     spawnSync('ncu', ['-u'], spawnOptions),
     'Step 3/6 - Upgrade dependencies',
   ]
+  log(upgradeDeps)
   const installDeps = [
     spawnSync('npm', ['install'], spawnOptions),
     'Step 4/6 - Create new lockfile',
   ]
+  log(installDeps)
   const stageChanges = [
     spawnSync('git', ['add', '.'], spawnOptions),
     'Step 5/6 - Stage changes',
   ]
+  log(stageChanges)
   const makeCommit = [
     spawnSync('git', ['commit', '-m', `"upgrade deps & lockfile"`], spawnOptions),
     'Step 6/6 - Make a commit',
   ]
+  log(makeCommit)
   const pushCommit = [
     spawnSync('git', ['push', 'origin', branch], spawnOptions),
     'Step 7/6 - Push a commit',
-  ];
+  ]
+  log(pushCommit)
 
-  [
-    delNodeModules,
-    delLockFile,
-    upgradeDeps,
-    installDeps,
-    stageChanges,
-    makeCommit,
-    pushCommit,
-  ].forEach(operation => {
-    const result = operation[0]
-    const step = operation[1]
-
-    console.log(`✨ ${step} stdout`, result.stdout)
-    result.stderr && console.log(`🍅 ${step} stderr`, result.stderr)
-  })
+  console.log(`Done at ${getTime()}`)
+  process.exit(0)
 }
