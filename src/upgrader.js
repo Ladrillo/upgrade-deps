@@ -21,8 +21,8 @@ const getTime = (date = new Date()) => {
 const log = operation => {
   const process = operation[0]
   const step = operation[1]
-  console.log(`✨ ${step}`, process.stdout)
-  process.stderr && console.log(`🍅 ${step}`, process.stderr)
+  console.log(`✨ ${step}\n`, process.stdout)
+  process.stderr && console.log(`🍅 ${step}\n`, process.stderr)
 }
 
 const spawnOptions = {
@@ -71,6 +71,6 @@ module.exports = async function () {
   ]
   log(pushCommit)
 
-  console.log(`Done at ${getTime()}`)
+  console.log(`Done on ${getTime()}`)
   process.exit(0)
 }
