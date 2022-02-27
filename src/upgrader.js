@@ -58,13 +58,17 @@ module.exports = async function () {
     spawnSync('npm', ['install'], spawnOptions),
     'Step 4/6 - Create new lockfile',
   ]
+  const stageChanges = [
+    spawnSync('git', ['add', '.'], spawnOptions),
+    'Step 5/6 - Stage changes',
+  ]
   const makeCommit = [
     spawnSync('git', ['commit', '-m', `"upgrade deps & lockfile"`], spawnOptions),
-    'Step 5/6 - Make a commit',
+    'Step 6/6 - Make a commit',
   ]
   const pushCommit = [
     spawnSync('git', ['push', 'origin', branch], spawnOptions),
-    'Step 6/6 - Push a commit',
+    'Step 7/6 - Push a commit',
   ];
 
   [
@@ -72,6 +76,7 @@ module.exports = async function () {
     delLockFile,
     upgradeDeps,
     installDeps,
+    stageChanges,
     makeCommit,
     pushCommit,
   ].forEach(operation => {
@@ -79,6 +84,6 @@ module.exports = async function () {
     const step = operation[1]
 
     console.log(`✨ ${step} stdout`, result.stdout)
-    console.log(`🍅 ${step} stderr`, result.stderr)
+    result.stderr && console.log(`🍅 ${step} stderr`, result.stderr)
   })
 }
