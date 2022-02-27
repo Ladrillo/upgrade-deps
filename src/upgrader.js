@@ -37,37 +37,37 @@ module.exports = async function () {
 
   const delNodeModules = [
     spawnSync('rm', ['-rf', './node_modules'], spawnOptions),
-    'Step 1/6 - Delete node_modules',
+    'Step 1/6 - Deleting node_modules',
   ]
   log(delNodeModules)
   const delLockFile = [
     spawnSync('rm', ['./package-lock.json'], spawnOptions),
-    'Step 2/6 - Delete lockfile',
+    'Step 2/6 - Deleting lockfile',
   ]
   log(delLockFile)
   const upgradeDeps = [
-    spawnSync('ncu', ['-u'], spawnOptions),
-    'Step 3/6 - Upgrade dependencies',
+    spawnSync('npm-check-updates', ['-u'], spawnOptions),
+    'Step 3/6 - Upgrading dependencies',
   ]
   log(upgradeDeps)
   const installDeps = [
     spawnSync('npm', ['install'], spawnOptions),
-    'Step 4/6 - Create new lockfile',
+    'Step 4/6 - Creating new lockfile',
   ]
   log(installDeps)
   const stageChanges = [
     spawnSync('git', ['add', '.'], spawnOptions),
-    'Step 5/6 - Stage changes',
+    'Step 5/6 - Staging changes',
   ]
   log(stageChanges)
   const makeCommit = [
     spawnSync('git', ['commit', '-m', `"upgrade deps & lockfile"`], spawnOptions),
-    'Step 6/6 - Make a commit',
+    'Step 6/6 - Making a commit',
   ]
   log(makeCommit)
   const pushCommit = [
     spawnSync('git', ['push', 'origin', branch], spawnOptions),
-    'Step 7/6 - Push a commit',
+    'Step 7/6 - Pushing a commit',
   ]
   log(pushCommit)
 
