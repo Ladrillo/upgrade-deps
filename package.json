@@ -3,6 +3,7 @@
   "version": "0.0.10",
   "type": "commonjs",
   "scripts": {
+    "predeploy": "npm version patch",
     "dev": "nodemon --inspect index.js $1",
     "test": "jest",
     "prepublishOnly": "npm i && npm test || exit 1"
